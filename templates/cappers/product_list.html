@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Buy Individual Picks, Capper Packages, All-Access Packages, and More!</h2>
+            <hr />
+            <ul class="list-unstyled">
+                {% for product in products %}
+                <li>
+                <h3>{{ product.name }}<small> ${{ product.price }}</small></h3>
+                    <p>{{ product.teaser }}</p>
+                    <form action="/charge" method="POST">
+                        <script
+                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+                            data-image="/square-image.png"
+                            data-name="RealSharps"
+                            data-label="Buy Now"
+                            data-description="{{ product.name }}"
+                            data-amount="{{ product.price_in_cents }}">
+                        </script>
+                        <input type="hidden" name="product-pk" value="{{ product.id }}" />
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

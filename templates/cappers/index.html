@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>RealSharps</h1>
+        <p>Real Sharps is a private firm that specializes in maximizing returns in the growing sports investment market.  Our sharps have been selected after rigorous evaluation to manage our firms bankroll as well as to work directly with clients to increase theirs.  Not only do our cappers use fundamental, situational, and historical analysis to derive at a selection, but we have in house algorithms to mathematically back our positions.  We are open 365 days per year and have handicappers that specialize in certain steps of the handicapping process from reading lines, following steam, to securing middles.  Our goal is to change the view of sports investing in the public eye so that it can become as mainstream as stock investing.</p> 
+     </div>
+     <div class="row">
+        <div class="col-md-3">
+            <h5>Single Picks</h5>
+            <ul class="list-unstyled">
+                {% for pick_product in pick_products %}
+                <li><a href="{% url 'pick_product_view' slug=pick_product.slug %}">{{ pick_product.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <h5>Pick Sets</h5>
+            <ul class="list-unstyled">
+                {% for pickset_product in pickset_products %}
+                <li><a href="{% url 'pickset_product_view' slug=pickset_product.slug %}">{{ pickset_product.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+         <div class="col-md-9">
+        <p>You can expect highly-selective and well researched plays across all sports. After identifying a game through complex formulas, we then apply our checks and balance system to ensure that the qualitative analysis matches the quantitative results.  Every day is a new battle against the oddsmakers.  We look at every line of every sport as a unique investment.  With the proper research and platforms, we are certain that we can identify specific lines or totals each day in which we have an advantage over the house.  Our investor network ranges from Florida up to NYC out to LA, and this allows for real time information.</p>
+        <p>We recommend signing up for at least a month of service.  As with the stock market, there will be ups and downs, but all that matters is that you finish above our target percentage of 58% for the month.  We do not believe in chasing and follow a strict money management system.  By sticking to our system, we are able to beat the market consistently on a long term basis.  Our philosophy is to grind out profits long term, and fire when we have a significant advantage which is when we distribute our banger/bomb/special plays.</p>
+        <p>If you sign up with us, we pledge to reveal all plays that our firm is investing in with our own capital and to make sure you profit with us.  Not only do you receive these selections, but you also get to learn how to be sharp.  Our handicappers will work with you 1 on 1 to come up with the best way to fulfill your sports investing needs.  Also, you are able to indulge in our articles, training opportunities, live odds, scores, steam reads, and more.</p>
+        <p>Our Real Sharps work with Real Integrity, bet with Real Money on Real Lines, while delivering Real Results.</p>
+        <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/RealSharps" data-widget-id="421520476335132672">Tweets by @RealSharps</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    </div>
+
+{% endblock %}
