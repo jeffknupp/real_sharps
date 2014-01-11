@@ -10,13 +10,22 @@
             <h5>Single Picks</h5>
             <ul class="list-unstyled">
                 {% for pick_product in pick_products %}
-                <li><a href="{% url 'pick_product_view' slug=pick_product.slug %}">{{ pick_product.name }}</a></li>
+
+                <li><a href="{% url 'pick_product_view' slug=pick_product.slug %}">
+                    {% if pick_product.image %}
+                        <img src="{{ pick_product.image}}" />
+                    {% endif %}
+                    {{ pick_product.name }}</a></li>
                 {% endfor %}
             </ul>
             <h5>Pick Sets</h5>
             <ul class="list-unstyled">
                 {% for pickset_product in pickset_products %}
-                <li><a href="{% url 'pickset_product_view' slug=pickset_product.slug %}">{{ pickset_product.name }}</a></li>
+                <li><a href="{% url 'pickset_product_view' slug=pickset_product.slug %}">
+                    {% if pick_product.image %}
+                        <img src="{{ pick_product.image}}" />
+                    {% endif %}
+                    {{ pickset_product.name }}</a></li>
                 {% endfor %}
             </ul>
         </div>

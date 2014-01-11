@@ -66,6 +66,7 @@ class Product(models.Model):
     active = models.BooleanField(default=True)
     available_after = models.DateTimeField(auto_now_add=True)
     teaser = models.TextField(null=True)
+    image = models.ImageField(upload_to='static', null=True, blank=True)
 
     def price_in_cents(self):
         return self.price * 100
@@ -74,8 +75,10 @@ class Product(models.Model):
         return self.name
 
 
-class PickProduct(Pick, Product):
+class PickProduct(Product):
     """A sell-able singe pick."""
+
+    pick = models.ForeignKey(Pick)
 
     def get_absolute_url(self):
         return '/buy/picks/' + slugify(self.name)
@@ -84,8 +87,10 @@ class PickProduct(Pick, Product):
         return '{} at {}'.format(self.name, self.price)
 
 
-class PickSetProduct(PickSet, Product):
+class PickSetProduct(Product):
     """A sell-able collection of picks."""
+
+    pick_set = models.ForeignKey(PickSet)
 
     def get_absolute_url(self):
         return '/buy/picksets/' + slugify(self.name)
