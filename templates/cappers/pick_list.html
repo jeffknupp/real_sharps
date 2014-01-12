@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>{{ author.username|title }}'s Picks</h2>
+                <hr />
+                <table class="table-condensed table-striped">
+                <thead>
+                    <th>Description</th><th>Date</th><th>Link</th>
+                </thead>
+                <tbody>
+                    {% for pick in picks %}
+                        <tr>
+                        <td><h2>{{ pick.name }}<small> {{ pick.teaser }}</small></h2></td>
+                        <td>{{ pick.created_at }}</td>
+                        <td><a href="{% url 'pick_detail' pk=pick.pk %}"><button class="btn">Go!</button></a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-md-12">
+                <h2>{{ author.username|title }}'s Pick History</h2>
+               <div id="chart_div" style="width: 900px; height: 500px;"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages:['gauge']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Sport', 'Correct Picks'],
+           {% for sport, value in capper_results.items %}
+               ['{{ sport }}', {% if value.0 == 0 %}0{% else %}({{ value.1 }}/{{ value.0 }}) * 100{% endif %}],
+           {% endfor %}
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 0, redTo: 50,
+          greenFrom:50, greenTo: 100,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+{% endblock %}

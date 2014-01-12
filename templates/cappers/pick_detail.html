@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if purchased %}
+    <div class="row">
+        <h1>{{ pick.name }}</h1>
+        <div class="well">
+        <p>{{ pick.pick_text }}</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <h1>{{ pick.name }}<small> ${{ pick.price }}</small></h1>
+        <p>Description: {{ pick.teaser }}</p>
+        <form action="/charge" method="POST">
+                        <script
+                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+                            data-image="/square-image.png"
+                            data-name="RealSharps"
+                            data-label="Buy Now"
+                            data-description="{{ pick.name }}"
+                            data-amount="{{ pick.price_in_cents }}">
+                        </script>
+                        <input type="hidden" name="product-pk" value="{{ pick.id }}" />
+                    </form>    </div>
+    {% endif %}
+{% endblock %}

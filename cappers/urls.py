@@ -1,11 +1,11 @@
 from django.conf.urls import patterns, url
 from django.contrib import admin
+from cappers.views import PickListView, CapperListView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'/pick/(?P<slug>[\w-]+)$', 'cappers.views.pick_product_detail', name='pick_product_view'),
-    url(r'/pickset/(?P<slug>[\w-]+)$', 'cappers.views.pickset_product_detail', name='pickset_product_view'),
-    url(r'$', 'cappers.views.product_list', name='product_list'),
+    url(r'/pick/(?P<pk>\d+)$', 'cappers.views.pick_detail', name='pick_detail'),
+    url(r'/capper/(?P<pk>\d+)$', CapperListView.as_view(), name='capper_list'),
     url(r'/charge$', 'cappers.views.charge', name='charge'),
 )

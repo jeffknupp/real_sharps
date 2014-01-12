@@ -8,22 +8,24 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'PickClass.description'
-        db.add_column(u'cappers_pickclass', 'description',
-                      self.gf('django.db.models.fields.TextField')(null=True),
+        # Deleting field 'Pick.image'
+        db.delete_column(u'cappers_pick', 'image')
+
+        # Adding field 'PickGroup.image'
+        db.add_column(u'cappers_pickgroup', 'image',
+                      self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True),
                       keep_default=False)
 
 
-        # Changing field 'PickClass.name'
-        db.alter_column(u'cappers_pickclass', 'name', self.gf('django.db.models.fields.CharField')(max_length=250))
-
     def backwards(self, orm):
-        # Deleting field 'PickClass.description'
-        db.delete_column(u'cappers_pickclass', 'description')
+        # Adding field 'Pick.image'
+        db.add_column(u'cappers_pick', 'image',
+                      self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True),
+                      keep_default=False)
 
+        # Deleting field 'PickGroup.image'
+        db.delete_column(u'cappers_pickgroup', 'image')
 
-        # Changing field 'PickClass.name'
-        db.alter_column(u'cappers_pickclass', 'name', self.gf('django.db.models.fields.TextField')())
 
     models = {
         u'auth.group': {
@@ -58,52 +60,34 @@ class Migration(SchemaMigration):
         u'cappers.handicapper': {
             'Meta': {'object_name': 'Handicapper', '_ormbases': [u'auth.User']},
             'bio': ('django.db.models.fields.TextField', [], {}),
-            'specialty': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.Sport']", 'null': 'True'}),
+            'specialty': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.Sport']", 'null': 'True', 'blank': 'True'}),
             u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'cappers.pick': {
-            'Meta': {'object_name': 'Pick', '_ormbases': [u'cappers.UpdateMixin']},
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'Meta': {'object_name': 'Pick'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'product_post'", 'to': u"orm['cappers.Handicapper']"}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'for_sale_after': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'pick_class': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.PickClass']", 'null': 'True'}),
-            'slug': ('autoslug.fields.AutoSlugField', [], {'unique_with': '()', 'max_length': '50', 'populate_from': "'name'"}),
-            'text': ('django.db.models.fields.TextField', [], {}),
-            u'updatemixin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['cappers.UpdateMixin']", 'unique': 'True', 'primary_key': 'True'})
+            'pick_text': ('django.db.models.fields.TextField', [], {}),
+            'price': ('django.db.models.fields.FloatField', [], {}),
+            'teaser': ('django.db.models.fields.TextField', [], {'default': 'True', 'null': 'True', 'blank': 'True'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
-        u'cappers.pickclass': {
-            'Meta': {'object_name': 'PickClass'},
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+        u'cappers.pickgroup': {
+            'Meta': {'object_name': 'PickGroup'},
+            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '250'})
-        },
-        u'cappers.pickproduct': {
-            'Meta': {'object_name': 'PickProduct', '_ormbases': [u'cappers.Pick', u'cappers.Product']},
-            u'pick_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['cappers.Pick']", 'unique': 'True', 'primary_key': 'True'}),
-            u'product_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['cappers.Product']", 'unique': 'True'})
-        },
-        u'cappers.pickset': {
-            'Meta': {'object_name': 'PickSet'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'picks': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['cappers.Pick']", 'symmetrical': 'False'})
-        },
-        u'cappers.picksetproduct': {
-            'Meta': {'object_name': 'PickSetProduct', '_ormbases': [u'cappers.PickSet', u'cappers.Product']},
-            u'pickset_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['cappers.PickSet']", 'unique': 'True', 'primary_key': 'True'}),
-            u'product_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['cappers.Product']", 'unique': 'True'})
-        },
-        u'cappers.product': {
-            'Meta': {'object_name': 'Product'},
-            'available_after': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'price': ('django.db.models.fields.FloatField', [], {}),
-            'teaser': ('django.db.models.fields.TextField', [], {'null': 'True'})
         },
         u'cappers.purchase': {
             'Meta': {'object_name': 'Purchase'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'product': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.Product']"}),
+            'picks': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.PickGroup']"}),
             'purchase_id': ('django.db.models.fields.TextField', [], {}),
             'purchased_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
@@ -113,12 +97,6 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Sport'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '250'})
-        },
-        u'cappers.updatemixin': {
-            'Meta': {'object_name': 'UpdateMixin'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},

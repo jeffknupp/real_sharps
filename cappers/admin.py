@@ -1,5 +1,14 @@
 from django.contrib import admin
-from cappers.models import PickProduct, PickSetProduct, Pick, PickSet, PickClass, Handicapper, Sport
+from cappers.models import Pick, Handicapper, Sport, Purchase
+from guardian.admin import GuardedModelAdmin
 
-admin.site.register([Pick, PickSet, PickProduct, PickSetProduct, PickClass, Handicapper, Sport])
-# Register your models here.
+class PickAdmin(GuardedModelAdmin):
+    pass
+class HandicapperAdmin(GuardedModelAdmin):
+    pass
+class PurchaseAdmin(GuardedModelAdmin):
+    pass
+
+admin.site.register(Pick, PickAdmin)
+admin.site.register(Handicapper, HandicapperAdmin)
+admin.site.register(Purchase, PurchaseAdmin)
