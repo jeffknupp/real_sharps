@@ -1,0 +1,31 @@
+body {
+//    background-color: black;
+//   color: white;
+}
+.red {
+    color: red;
+}
+.yellow {
+    color: orange;
+}
+.sidebar {
+    font-size: 20px;
+}
+#banner {
+    align-content: center;
+}
+
+.thumbnail {
+    background-color: black;
+}
+
+.panel-body {
+    color: black;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+.indianred {
+    background-color: indianred;
+}

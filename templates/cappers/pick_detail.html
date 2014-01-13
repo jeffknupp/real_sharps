@@ -2,9 +2,9 @@
 {% block content %}
     {% if purchased %}
     <div class="row">
-        <h1>{{ pick.name }}</h1>
-        <div class="well">
-        <p>{{ pick.pick_text }}</p>
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ pick.name }}, {{ pick.event_date }}</div>
+            <div class="panel-body"><h3>By <a href="{% url 'capper_list' pk=pick.author.pk %}">{{ pick.author }}</a></h3><hr/>{{ pick.pick_text }}</div>
         </div>
     </div>
     {% else %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+import datetime
 
 
 class UpdateMixin(models.Model):
@@ -46,17 +47,20 @@ class Pick(UpdateMixin):
     active = models.BooleanField(default=True)
     was_correct = models.BooleanField(default=False)
     sport = models.ForeignKey(Sport)
+    event_date = models.DateField()
 
     class Meta:
         permissions = (
             ('view_pick', 'View a pick'),
         )
 
+        get_latest_by = 'event_date'
+
     def price_in_cents(self):
         return self.price * 100
 
     def __unicode__(self):
-        return self.name
+        return '{}, {}'.format(self.name, self.event_date.strftime('%m-%d'))
 
 class Purchase(models.Model):
     """A purchase made by a user of the site."""

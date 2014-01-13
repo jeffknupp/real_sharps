@@ -3,16 +3,16 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>{{ author.username|title }}'s Picks</h2>
+                <h1>{{ author.username|title }}'s Picks</h1>
                 <hr />
-                <table class="table-condensed table-striped">
+                <table class="table">
                 <thead>
                     <th>Description</th><th>Date</th><th>Link</th>
                 </thead>
                 <tbody>
                     {% for pick in picks %}
                         <tr>
-                        <td><h2>{{ pick.name }}<small> {{ pick.teaser }}</small></h2></td>
+                        <td><h4>{{ pick.name }}<small> {{ pick.teaser }}</small></h4></td>
                         <td>{{ pick.created_at }}</td>
                         <td><a href="{% url 'pick_detail' pk=pick.pk %}"><button class="btn">Go!</button></a></td>
                         </tr>
