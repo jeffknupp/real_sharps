@@ -45,9 +45,14 @@ INSTALLED_APPS = (
     'autoslug',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
     'debug_toolbar',
     'crispy_forms',
+    'pagination',
+    'lbforum',
+    'simpleavatar',
+    'djangohelper',
+    'onlineuser',
+    'attachments',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -55,6 +60,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
+    'djangohelper.context_processors.ctx_config',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -124,3 +130,18 @@ if DEBUG:
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ANONYMOUS_USER_ID = -1
+
+# LBForum settings
+LOGIN_URL = 'accounts/login'
+LOGOUT_URL = 'accounts/logout'
+REGISTER_URL = 'accounts/register'
+CTX_CONFIG = {
+    'LBFORUM_TITLE': 'Forum',
+    'LBFORUM_SUB_TITLE': 'RealSharps Forum',
+    'FORUM_PAGE_SIZE': 50,
+    'TOPIC_PAGE_SIZE': 20,
+
+    'LOGIN_URL': LOGIN_URL,
+    'LOGOUT_URL': LOGOUT_URL,
+    'REGISTER_URL': REGISTER_URL,
+    }
