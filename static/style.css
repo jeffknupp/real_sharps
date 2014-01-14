@@ -1,6 +1,7 @@
 body {
 //    background-color: black;
 //   color: white;
+    font-family: "Helvetica Neue";
 }
 .red {
     color: red;
@@ -26,6 +27,7 @@ body {
 .navbar {
     margin-bottom: 0;
 }
-.indianred {
-    background-color: indianred;
+.black {
+    background-color: black;
+    color: white;
 }

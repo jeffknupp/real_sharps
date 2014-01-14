@@ -1,59 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="bg">
-    <img src="/static/large_stadium_large.jpg" alt="realsharps.com" />
-</div>
-         <div class="indianred">
-         <h3>Want 58% or greater returns on your invested capital? It's not impossible...<small>For a Real Sharp, that is.</small></h3>
-             Real Sharps is a private investment firm specializing in maximizing returns in the growing sports investment market.
-             Our sharps have been rigorously evaluated and actively manage the firm's bankroll. In addition, they work directly with clients looking to maximize returns.
-             Our cappers use fundamental, situational, and historical analysis to determine selections, as well as proprietary algorithms to manage the exposure of our positions.
-             Real Sharps is open 365 days per year. Our handicappers specialize in everything from reading lines, following steam, to securing middles.
-        You can expect highly-selective and well researched plays across all sports. After identifying a game using our proprietary technology, we back-check all picks to ensure that the qualitative analysis matches the quantitative results.
-             Every day is a new battle against the oddsmakers.  We look at every line of every sport as a unique investment. With the proper research and technology, we can identify specific lines or totals each day in which we have an advantage over the house.
-             Our investor network ranges from Florida up to NYC out to LA, allowing for real time information.
-        <p>We recommend signing up for at least a month of service.  As with the stock market, there will be ups and downs, but all that matters is that you finish above our target percentage of 58% for the month.  We do not believe in chasing and follow a strict money management system.  By sticking to our system, we are able to beat the market consistently on a long term basis.  Our philosophy is to grind out profits long term, and fire when we have a significant advantage which is when we distribute our banger/bomb/special plays.</p>
-        <p>If you sign up with us, we pledge to reveal all plays that our firm is investing in with our own capital and to make sure you profit with us.  Not only do you receive these selections, but you also get to learn how to be sharp.  Our handicappers will work with you 1 on 1 to come up with the best way to fulfill your sports investing needs.  Also, you are able to indulge in our articles, training opportunities, live odds, scores, steam reads, and more.</p>
-        <p>Our Real Sharps work with Real Integrity, bet with Real Money on Real Lines, while delivering Real Results.</p>
-             </div>
-            <div class="col-md-9">
-            <h3>Picks for {% now 'm-d-y'%}</h3>
-            <div class="panel panel-default">
-                <div class="panel-heading panel-title"><h4>Single Picks</h4></div>
-            <div class="panel-body"></div>
+    <div class="container">
+        <div class="row">
+        <img src="/static/large_stadium_large.jpg" alt="realsharps.com" />
+    </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Picks for {% now 'm-d-y'%}</h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-title"><h4>Single Picks</h4></div>
+                    <div class="panel-body"></div>
 
-            <ul class="list-unstyled fa-ul sidebar">
-                {% for pick in picks %}
-                    {% if forloop.counter == 1 %}
-                    <li><i class="fa fa-li fa-fire red"></i><a href="{% url 'pick_detail' pick.pk %}">{{ pick }}</a></li>
-                    {% elif forloop.counter == 3 %}
-                    <li><i class="fa fa-li fa-bolt yellow"></i><a href="{% url 'pick_detail' pick.pk %}">{{ pick }}</a></li>
-                    {% else %}
-                    <li><a href="{% url 'pick_detail' pick.pk %}">{{ pick }}</a></li>
-                    {% endif %}
-                    <hr/>
-                {% endfor %}
-            </ul>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading panel-title"><h3>Cappers</h3></div>
-                <div class="panel-body">
-            <ul class="list-unstyled">
-                {% for capper in cappers %}
-                    {% if capper.image %}
-                        <li><a href="{% url 'capper_list' capper.pk %}" class="thumbnail">
-                        <img data-src="holder.js" src="{{ capper.image}}" />
-                    {% else %}
-                    <li><a href="{% url 'capper_list' capper.pk %}">
-                    <p>{{ capper.name }}</p>
-                    {% endif %}
-                    </a></li>
-                {% endfor %}
-            </ul>
+                    <ul class="list-unstyled fa-ul sidebar">
+                        {% for pick in picks %}
+                            {% if forloop.counter == 1 %}
+                                <li><i class="fa fa-li fa-fire red"></i><a href="{% url 'pick_detail' pick.pk %}">{{ pick }}</a></li>
+                            {% elif forloop.counter == 3 %}
+                                <li><i class="fa fa-li fa-bolt yellow"></i><a href="{% url 'pick_detail' pick.pk %}">{{ pick }}</a></li>
+                            {% else %}
+                                <li><a href="{% url 'pick_detail' pick.pk %}">{{ pick }}</a></li>
+                            {% endif %}
+                            <hr/>
+                        {% endfor %}
+                    </ul>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-title"><h3>Cappers</h3></div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            {% for capper in cappers %}
+                                {% if capper.image %}
+                                    <li><a href="{% url 'capper_list' capper.pk %}" class="thumbnail">
+                                    <img data-src="holder.js" src="{{ capper.image}}" />
+                                {% else %}
+                                    <li><a href="{% url 'capper_list' capper.pk %}">
+                                    <p>{{ capper.name }}</p>
+                                {% endif %}
+                            </a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/RealSharps" data-widget-id="421520476335132672">Tweets by @RealSharps</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
-            <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/RealSharps" data-widget-id="421520476335132672">Tweets by @RealSharps</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <div class="col-md-9">
+                <h3>Want 58% or greater returns on your invested capital? It's not impossible...<small>For a Real Sharp, that is.</small></h3>
+                Real Sharps is a private investment firm specializing in maximizing returns in the growing sports investment market.
+                Our sharps have been rigorously evaluated and actively manage the firm's bankroll. In addition, they work directly with clients looking to maximize returns.
+                Our cappers use fundamental, situational, and historical analysis to determine selections, as well as proprietary algorithms to manage the exposure of our positions.
+                Real Sharps is open 365 days per year. Our handicappers specialize in everything from reading lines, following steam, to securing middles.
+                You can expect highly-selective and well researched plays across all sports. After identifying a game using our proprietary technology, we back-check all picks to ensure that the qualitative analysis matches the quantitative results.
+                Every day is a new battle against the oddsmakers.  We look at every line of every sport as a unique investment. With the proper research and technology, we can identify specific lines or totals each day in which we have an advantage over the house.
+                Our investor network ranges from Florida up to NYC out to LA, allowing for real time information.
+                <p>We recommend signing up for at least a month of service.  As with the stock market, there will be ups and downs, but all that matters is that you finish above our target percentage of 58% for the month.  We do not believe in chasing and follow a strict money management system.  By sticking to our system, we are able to beat the market consistently on a long term basis.  Our philosophy is to grind out profits long term, and fire when we have a significant advantage which is when we distribute our banger/bomb/special plays.</p>
+                <p>If you sign up with us, we pledge to reveal all plays that our firm is investing in with our own capital and to make sure you profit with us.  Not only do you receive these selections, but you also get to learn how to be sharp.  Our handicappers will work with you 1 on 1 to come up with the best way to fulfill your sports investing needs.  Also, you are able to indulge in our articles, training opportunities, live odds, scores, steam reads, and more.</p>
+                <p>Our Real Sharps work with Real Integrity, bet with Real Money on Real Lines, while delivering Real Results.</p>
+            </div>
         </div>
     </div>
 {% endblock %}
