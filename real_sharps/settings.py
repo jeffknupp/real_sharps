@@ -134,9 +134,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 ANONYMOUS_USER_ID = -1
 
 # LBForum settings
-LOGIN_URL = 'accounts/login'
-LOGOUT_URL = 'accounts/logout'
-REGISTER_URL = 'accounts/register'
+LOGIN_URL = '/accounts/login'
+LOGOUT_URL = '/accounts/logout'
+REGISTER_URL = '/accounts/register'
 CTX_CONFIG = {
     'LBFORUM_TITLE': 'Forum',
     'LBFORUM_SUB_TITLE': 'RealSharps Forum',

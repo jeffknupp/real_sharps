@@ -65,6 +65,16 @@ class SportListView(ListView):
 
 class PickListView(ListView):
     model = Pick
+    context_object_name = 'picks'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(PickListView, self).get_context_data(**kwargs)
+        context['is_capper'] = False
+        context['pick_category'] = 'All Picks'
+        return context
+
+
     def get_queryset(self):
         return Pick.objects.filter(active=True)
 
@@ -76,7 +86,6 @@ class CapperListView(ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(CapperListView, self).get_context_data(**kwargs)
-        # Add in the publisher
         context['author'] = self.author
         context['capper_results'] = self.capper_results
         context['is_capper'] = True
