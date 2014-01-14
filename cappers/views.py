@@ -45,6 +45,24 @@ def pick_detail(request, pk=None, *args, **kwargs):
         },
         context_instance=RequestContext(request))
 
+class SportListView(ListView):
+    model = Pick
+    context_object_name = 'picks'
+
+    def get_queryset(self):
+        return Pick.objects.filter(sport__pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SportListView, self).get_context_data(**kwargs)
+        # Add in the publisher
+        context['is_capper'] = False
+        sport = get_object_or_404(Sport, pk=self.kwargs['pk'])
+        print sport.name
+        context['pick_category'] = sport.name
+        return context
+
+
 class PickListView(ListView):
     model = Pick
     def get_queryset(self):
@@ -61,6 +79,7 @@ class CapperListView(ListView):
         # Add in the publisher
         context['author'] = self.author
         context['capper_results'] = self.capper_results
+        context['is_capper'] = True
         return context
 
     def get_queryset(self):

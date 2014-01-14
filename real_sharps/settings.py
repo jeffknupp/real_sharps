@@ -48,11 +48,11 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'crispy_forms',
     'pagination',
-    'lbforum',
-    'simpleavatar',
-    'djangohelper',
-    'onlineuser',
-    'attachments',
+    #'lbforum',
+    #'simpleavatar',
+    #'djangohelper',
+    #'onlineuser',
+    #'attachments',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

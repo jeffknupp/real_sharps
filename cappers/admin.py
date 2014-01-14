@@ -9,6 +9,10 @@ class HandicapperAdmin(GuardedModelAdmin):
 class PurchaseAdmin(GuardedModelAdmin):
     pass
 
+class SportAdmin(GuardedModelAdmin):
+    pass
+
 admin.site.register(Pick, PickAdmin)
 admin.site.register(Handicapper, HandicapperAdmin)
 admin.site.register(Purchase, PurchaseAdmin)
+admin.site.register(Sport, SportAdmin)

@@ -3,49 +3,63 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                {% if is_capper %}
                 <h1>{{ author.username|title }}'s Picks</h1>
+                {% else %}
+                <h1>{{ pick_category }}</h1>
+                {% endif %}
                 <hr />
                 <table class="table">
                 <thead>
-                    <th>Description</th><th>Date</th><th>Link</th>
+                    <th>Description</th><th>Capper</th><th>Sport</th><th>Date</th><th>Link</th>
                 </thead>
                 <tbody>
                     {% for pick in picks %}
                         <tr>
                         <td><h4>{{ pick.name }}<small> {{ pick.teaser }}</small></h4></td>
+                        <td><a href="{% url 'capper_list' pk=pick.author.pk %}">{{ pick.author.username }}</a></td>
+                        <td><a href="{% url 'sport_list' pk=pick.sport.pk %}">{{ pick.sport.name }}</a></td>
                         <td>{{ pick.created_at }}</td>
                         <td><a href="{% url 'pick_detail' pk=pick.pk %}"><button class="btn">Go!</button></a></td>
                         </tr>
                     {% endfor %}
                 </table>
             </div>
+            {% if is_capper %}
             <div class="col-md-12">
                 <h2>{{ author.username|title }}'s Pick History</h2>
-               <div id="chart_div" style="width: 900px; height: 500px;"></div>
+                {% for sport, value in capper_results.items %}
+                <h4>{{ sport }}</h4>
+                <ul class="list-unstyled">
+                    <li><strong>Total Picks:</strong> </li><li>{{ value.0 }}</li>
+                    <li><strong>Correct Picks:</strong></li><li>{{ value.1 }}</li>
+                    <li><div id="chart_div{{ sport }}"></div></li>
+                </ul>
+                {% endfor %}
+            </div>
+            {% endif %}
             </div>
         </div>
-    </div>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load('visualization', '1', {packages:['gauge']});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Sport', 'Correct Picks'],
-           {% for sport, value in capper_results.items %}
-               ['{{ sport }}', {% if value.0 == 0 %}0{% else %}({{ value.1 }}/{{ value.0 }}) * 100{% endif %}],
-           {% endfor %}
-        ]);
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        {% for sport, value in capper_results.items %}
+        <script type="text/javascript">
+                        google.load('visualization', '1', {packages:['gauge']});
+                        google.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                                    ['Sport', 'Correct Picks'],
+                                    ['{{ sport }}', {% if value.0 == 0 %}0{% else %}({{ value.1 }}/{{ value.0 }}) * 100{% endif %}],
+                                    ]);
 
-        var options = {
-          width: 400, height: 120,
-          redFrom: 0, redTo: 50,
-          greenFrom:50, greenTo: 100,
-          minorTicks: 5
-        };
+                            var options = {
+                                redFrom: 0, redTo: 50,
+                                greenFrom:50, greenTo: 100,
+                                minorTicks: 5
+                            };
 
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-{% endblock %}
+                            var chart = new google.visualization.Gauge(document.getElementById('chart_div{{ sport }}'));
+                            chart.draw(data, options);
+                        }
+                    </script>
+        {% endfor %}
+    {% endblock %}
