@@ -6,20 +6,20 @@
         {% if forum %}
         {% if forum.topictype_set.all.count %}
         <span><a class="{% if not topic_type2 %}selected{% endif %}"
-                    href="{% forum_url 'forum' topic_type "" %}">{% trans "All" %}</a></span>
+                    href="{% forum_url forum topic_type "" %}">{% trans "All" %}</a></span>
         {% for tp in forum.topictype_set.all %}     
         <span><a class="{% if topic_type2 == tp.slug %}selected{% endif %}"
-                    href="{% forum_url 'forum' topic_type tp.slug %}">{{ tp }}</a></span>
+                    href="{% forum_url forum topic_type tp.slug %}">{{ tp }}</a></span>
         {% endfor %}
         <span>|</span>
         {% endif %}
 
         <span>
             <a class="{% if topic_type != "good" %}selected{% endif %}" 
-                    href="{% forum_url 'forum' "" topic_type2 %}">{% trans "All" %}</a>
+                    href="{% forum_url forum "" topic_type2 %}">{% trans "All" %}</a>
         </span>
         <span><a class="{% if topic_type == "good" %}selected{% endif %}" 
-                    href="{% forum_url 'forum' "good" topic_type2 %}">{% trans "Distillate District" %}</a></span>
+                    href="{% forum_url forum "good" topic_type2 %}">{% trans "Distillate District" %}</a></span>
         <span>|</span>
         {% endif %}
 		<span class="item-info">{% trans "Topics" %} [ {% page_range_info page_obj %} ]</span></h2>
