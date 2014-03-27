@@ -28,6 +28,17 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
+STATIC_ROOT = '/static'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+
+STATIC_URL = '/static/'
+
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -48,12 +59,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'debug_toolbar',
     'crispy_forms',
-    'pagination',
-    #'lbforum',
-    #'simpleavatar',
-    #'djangohelper',
-    #'onlineuser',
-    #'attachments',
+    'pybb',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -61,7 +67,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
-    'djangohelper.context_processors.ctx_config',
+    'pybb.context_processors.processor',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -78,7 +84,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'pagination.middleware.PaginationMiddleware',
+    'pybb.middleware.PybbMiddleware',
 )
 
 ROOT_URLCONF = 'real_sharps.urls'
@@ -91,9 +97,9 @@ WSGI_APPLICATION = 'real_sharps.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql+psycopg2',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'application',
-        'USER': 'django',
+        'USER': 'jknupp',
     }
 }
 
@@ -109,15 +115,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL = '/static/'
 
 # Django-Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
