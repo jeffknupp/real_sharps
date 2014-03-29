@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('allauth.urls')),
     url(r'^forum/', include('pybb.urls', namespace='pybb')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^payments/', include('djstripe.urls', namespace="djstripe")),
 )

@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'south',
     'autoslug',
+    'sorl.thumbnail',
     'allauth',
     'allauth.account',
     'debug_toolbar',
@@ -68,6 +69,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
     'pybb.context_processors.processor',
+    'djstripe.context_processors.djstripe_settings',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -131,17 +133,26 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ANONYMOUS_USER_ID = -1
 
-# LBForum settings
-LOGIN_URL = '/accounts/login'
-LOGOUT_URL = '/accounts/logout'
-REGISTER_URL = '/accounts/register'
-CTX_CONFIG = {
-    'LBFORUM_TITLE': 'Forum',
-    'LBFORUM_SUB_TITLE': 'RealSharps Forum',
-    'FORUM_PAGE_SIZE': 50,
-    'TOPIC_PAGE_SIZE': 20,
+# DJ-Stripe settings
 
-    'LOGIN_URL': LOGIN_URL,
-    'LOGOUT_URL': LOGOUT_URL,
-    'REGISTER_URL': REGISTER_URL,
+DJSTRIPE_PLANS = {
+    "monthly": {
+        "stripe_plan_id": "pro-monthly",
+        "name": "RealSharpLounge Pro Monthly ($1/day)",
+        "description": "The monthly subscription plan to RealSharpLounge",
+        "price": 3100,  # $25.00
+        "currency": "usd",
+        "interval": "month"
+    },
+    "yearly": {
+        "stripe_plan_id": "pro-yearly",
+        "name": "RealSharpLounge Pro Yearly ($365/year)",
+        "description": "The annual subscription plan to RealSharpLounge",
+        "price": 36500,  # $19900
+        "currency": "usd",
+        "interval": "year"
     }
+}
+
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_w3qNBkDR8A4jkKejBmsMdH34")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_VXxFQI4v3Ym2EwnXh79mzDoN")
