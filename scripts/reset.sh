@@ -3,5 +3,5 @@
 dropdb application
 createdb application
 
-python manage.py --noinput syncdb
-python manage.py migrate
+python manage.py syncdb --noinput
+python manage.py migrate --noinput
