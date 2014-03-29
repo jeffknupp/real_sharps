@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'south',
     'autoslug',
     'sorl.thumbnail',
+    'djstripe',
     'allauth',
     'allauth.account',
     'debug_toolbar',
@@ -66,10 +67,10 @@ INSTALLED_APPS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
+    'djstripe.context_processors.djstripe_settings',
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
     'pybb.context_processors.processor',
-    'djstripe.context_processors.djstripe_settings',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -86,6 +87,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'djstripe.middleware.SubscriptionPaymentMiddleware',
     'pybb.middleware.PybbMiddleware',
 )
 
@@ -138,11 +140,12 @@ ANONYMOUS_USER_ID = -1
 DJSTRIPE_PLANS = {
     "monthly": {
         "stripe_plan_id": "pro-monthly",
-        "name": "RealSharpLounge Pro Monthly ($1/day)",
+        "name": "RealSharpLounge Pro Monthly ($40/month)",
         "description": "The monthly subscription plan to RealSharpLounge",
-        "price": 3100,  # $25.00
+        "price": 4000,  # $25.00
         "currency": "usd",
-        "interval": "month"
+        "interval": "month",
+        "image": "/static/lounge.jpg",
     },
     "yearly": {
         "stripe_plan_id": "pro-yearly",
@@ -150,9 +153,15 @@ DJSTRIPE_PLANS = {
         "description": "The annual subscription plan to RealSharpLounge",
         "price": 36500,  # $19900
         "currency": "usd",
-        "interval": "year"
+        "interval": "year",
+        "image": "/static/lounge.jpg",
     }
 }
 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_w3qNBkDR8A4jkKejBmsMdH34")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_VXxFQI4v3Ym2EwnXh79mzDoN")
+
+DJSTRIPE_SUBSCRIPTION_REQUIRED_EXCEPTION_URLS = (
+    'home',
+    'account_logout',  # anything in the django-allauth URLConf
+)
