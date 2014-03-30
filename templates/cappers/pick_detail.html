@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if purchased %}
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">{{ pick.name }}, {{ pick.event_date }}</div>
@@ -23,5 +22,4 @@
                         </script>
                         <input type="hidden" name="product-pk" value="{{ pick.id }}" />
                     </form>    </div>
-    {% endif %}
 {% endblock %}

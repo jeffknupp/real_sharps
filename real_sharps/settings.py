@@ -123,7 +123,7 @@ USE_TZ = True
 # Django-Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/payments/subscribe'
 ACCOUNT_EMAIL_VERIFICATION = None
 ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
 if DEBUG:
@@ -145,7 +145,7 @@ DJSTRIPE_PLANS = {
         "price": 4000,  # $25.00
         "currency": "usd",
         "interval": "month",
-        "image": "/static/lounge.jpg",
+        #"image": "/static/lounge.jpg",
     },
     "yearly": {
         "stripe_plan_id": "pro-yearly",
@@ -154,7 +154,7 @@ DJSTRIPE_PLANS = {
         "price": 36500,  # $19900
         "currency": "usd",
         "interval": "year",
-        "image": "/static/lounge.jpg",
+        #"image": "/static/lounge.jpg",
     }
 }
 

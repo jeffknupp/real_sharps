@@ -4,7 +4,9 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
 
-from cappers.models import Purchase, Pick, Handicapper, Sport
+from djstripe.decorators import subscription_payment_required
+
+from cappers.models import Pick, Handicapper, Sport
 
 
 def index_view(request):
@@ -18,90 +20,62 @@ def index_view(request):
         },
         context_instance=RequestContext(request))
 
-def user_has_purchased(user, pick):
-    """Return True if a user has purchased the give pick."""
-    purchases = Purchase.objects.filter(user=user)
-    for purchase in purchases:
-        if pick in purchase.picks.picks.all():
-            return True
-
-    return False
-
 @login_required
+@subscription_payment_required
 def pick_detail(request, pk=None, *args, **kwargs):
     """Show either the pick or a teaser with an opportunity to buy it."""
     pick = get_object_or_404(Pick, pk=pk)
-    purchased = True
     if not pick.active:
         messages.error(request, pick.name + 'is not yet active')
         return index_view()
-    elif not request.user.has_perm(pick):
-        purchased = False
     return render_to_response(
         'cappers/pick_detail.html',
         {
             'pick': pick,
-            'purchased': purchased,
         },
         context_instance=RequestContext(request))
 
-class SportListView(ListView):
-    model = Pick
-    context_object_name = 'picks'
-
-    def get_queryset(self):
-        return Pick.objects.filter(sport__pk=self.kwargs['pk'])
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(SportListView, self).get_context_data(**kwargs)
-        # Add in the publisher
-        context['is_capper'] = False
-        sport = get_object_or_404(Sport, pk=self.kwargs['pk'])
-        print sport.name
-        context['pick_category'] = sport.name
-        return context
+def sport_list_view(request, pk=None, *args, **kwargs):
+    context = {}
+    context['picks'] = Pick.objects.filter(sport__pk=pk)
+    context['is_capper'] = False
+    sport = get_object_or_404(Sport, pk=pk)
+    context['pick_category'] = sport.name
+    return render_to_response(
+            'cappers/pick_list.html',
+            context,
+            context_instance=RequestContext(request))
+    
 
 
-class PickListView(ListView):
-    model = Pick
-    context_object_name = 'picks'
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(PickListView, self).get_context_data(**kwargs)
-        context['is_capper'] = False
-        context['pick_category'] = 'All Picks'
-        return context
-
-
-    def get_queryset(self):
-        return Pick.objects.filter(active=True)
-
-class CapperListView(ListView):
-    model = Pick
-    context_object_name = 'picks'
-
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(CapperListView, self).get_context_data(**kwargs)
-        context['author'] = self.author
-        context['capper_results'] = self.capper_results
-        context['is_capper'] = True
-        return context
-
-    def get_queryset(self):
-        self.author = Handicapper.objects.get(pk=self.kwargs['pk'])
-        self.capper_stats=Pick.objects.filter(author=self.author)
-        sports = Sport.objects.all()
-        self.capper_results = {}
-        for sport in sports:
-            sport_picks = self.capper_stats.filter(sport=sport)
-            correct = sport_picks.filter(was_correct=True)
-            self.capper_results[sport.name] = (len(sport_picks), len(correct))
-        return Pick.objects.filter(author=self.author)
-
+def pick_list_view(request, pk=None, *args, **kwargs):
+    context = {}
+    context['is_capper'] = False
+    context['pick_category'] = 'All Picks'
+    context['picks'] = Pick.objects.filter(active=True)
+    return render_to_response(
+            'cappers/pick_list.html',
+            context,
+            context_instance=RequestContext(request))
+    
+def capper_list_view(request, pk=None, *args, **kwargs):
+    context = {}
+    context['is_capper'] = True
+    context['author'] = Handicapper.objects.get(pk=pk)
+    capper_stats = Pick.objects.filter(author=context['author'])
+    sports = Sport.objects.all()
+    capper_results = {}
+    for sport in sports:
+        sport_picks = capper_stats.filter(sport=sport)
+        correct = sport_picks.filter(was_correct=True)
+        capper_results[sport.name] = (len(sport_picks), len(correct))
+    context['picks'] = Pick.objects.filter(author=context['author'])
+    context['capper_results'] = capper_results
+    return render_to_response(
+            'cappers/pick_list.html',
+            context,
+            context_instance=RequestContext(request))
+    
 
 def charge():
     pass

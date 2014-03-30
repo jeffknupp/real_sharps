@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
 
     <title>RealSharps.com</title>
 
@@ -18,13 +18,13 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
     <link href="/static/style.css" rel="stylesheet">
 
 
     <!-- Bootstrap core JS -->
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -66,7 +66,7 @@
                     <li><a href="{% url 'sport_list' pk=6 %}">NCAAMB</a></li>
                 </ul>
             </li>
-            <li><a href="#">FAQs</a></li>
+            <li><a href="{% url 'faq' %}">FAQs</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -76,6 +76,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'account_email' %}">Change E-mail Address</a></li>
                         <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+                        <li><a href="{% url 'djstripe:history' %}">Payment History</a></li>
                     </ul>
                 </li>
             {% else %}
@@ -87,8 +88,8 @@
 
 <div class="container">
     {% if messages %}
-        <div class="alert alert-danger">
-            <strong>Error:</strong>
+        <div class="alert alert-warning">
+            <strong>Message:</strong>
             <ul>
                 {% for message in messages %}
                     <li>{{message}}</li>

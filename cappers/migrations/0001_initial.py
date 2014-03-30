@@ -20,6 +20,7 @@ class Migration(SchemaMigration):
             (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
             ('specialty', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cappers.Sport'], null=True, blank=True)),
             ('bio', self.gf('django.db.models.fields.TextField')()),
+            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
         ))
         db.send_create_signal(u'cappers', ['Handicapper'])
 
@@ -35,37 +36,11 @@ class Migration(SchemaMigration):
             ('price', self.gf('django.db.models.fields.FloatField')()),
             ('for_sale_after', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
+            ('was_correct', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('sport', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cappers.Sport'])),
+            ('event_date', self.gf('django.db.models.fields.DateField')()),
         ))
         db.send_create_signal(u'cappers', ['Pick'])
-
-        # Adding model 'PickGroup'
-        db.create_table(u'cappers_pickgroup', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'cappers', ['PickGroup'])
-
-        # Adding M2M table for field picks on 'PickGroup'
-        m2m_table_name = db.shorten_name(u'cappers_pickgroup_picks')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('pickgroup', models.ForeignKey(orm[u'cappers.pickgroup'], null=False)),
-            ('pick', models.ForeignKey(orm[u'cappers.pick'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['pickgroup_id', 'pick_id'])
-
-        # Adding model 'Purchase'
-        db.create_table(u'cappers_purchase', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('picks', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cappers.PickGroup'])),
-            ('purchased_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('purchase_id', self.gf('django.db.models.fields.TextField')()),
-            ('valid_until', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal(u'cappers', ['Purchase'])
 
 
     def backwards(self, orm):
@@ -77,15 +52,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Pick'
         db.delete_table(u'cappers_pick')
-
-        # Deleting model 'PickGroup'
-        db.delete_table(u'cappers_pickgroup')
-
-        # Removing M2M table for field picks on 'PickGroup'
-        db.delete_table(db.shorten_name(u'cappers_pickgroup_picks'))
-
-        # Deleting model 'Purchase'
-        db.delete_table(u'cappers_purchase')
 
 
     models = {
@@ -121,6 +87,7 @@ class Migration(SchemaMigration):
         u'cappers.handicapper': {
             'Meta': {'object_name': 'Handicapper', '_ormbases': [u'auth.User']},
             'bio': ('django.db.models.fields.TextField', [], {}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'specialty': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.Sport']", 'null': 'True', 'blank': 'True'}),
             u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
         },
@@ -129,30 +96,16 @@ class Migration(SchemaMigration):
             'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'product_post'", 'to': u"orm['cappers.Handicapper']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'event_date': ('django.db.models.fields.DateField', [], {}),
             'for_sale_after': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'pick_text': ('django.db.models.fields.TextField', [], {}),
             'price': ('django.db.models.fields.FloatField', [], {}),
+            'sport': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.Sport']"}),
             'teaser': ('django.db.models.fields.TextField', [], {'default': 'True', 'null': 'True', 'blank': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        u'cappers.pickgroup': {
-            'Meta': {'object_name': 'PickGroup'},
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'picks': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['cappers.Pick']", 'symmetrical': 'False'})
-        },
-        u'cappers.purchase': {
-            'Meta': {'object_name': 'Purchase'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'picks': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cappers.PickGroup']"}),
-            'purchase_id': ('django.db.models.fields.TextField', [], {}),
-            'purchased_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'valid_until': ('django.db.models.fields.DateTimeField', [], {})
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'was_correct': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'cappers.sport': {
             'Meta': {'object_name': 'Sport'},

@@ -61,14 +61,3 @@ class Pick(UpdateMixin):
 
     def __unicode__(self):
         return '{}, {}'.format(self.name, self.event_date.strftime('%m-%d'))
-
-class Purchase(models.Model):
-    """A purchase made by a user of the site."""
-    user = models.ForeignKey(User)
-    picks = models.ForeignKey(Pick)
-    purchased_at = models.DateTimeField(auto_now_add=True)
-    purchase_id = models.TextField()
-    valid_until = models.DateTimeField()
-
-    def __unicode__(self):
-        return '{} by {}'.format(self.picks.name, self.user.email)
