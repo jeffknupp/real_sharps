@@ -34,6 +34,8 @@ def pick_detail(request, pk=None, *args, **kwargs):
         },
         context_instance=RequestContext(request))
 
+@login_required
+@subscription_payment_required
 def sport_list_view(request, pk=None, *args, **kwargs):
     context = {}
     context['picks'] = Pick.objects.filter(sport__pk=pk)

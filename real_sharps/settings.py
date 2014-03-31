@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'floppyforms',
     'cappers',
     'guardian',
     'django_extensions',
@@ -69,7 +70,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'djstripe.context_processors.djstripe_settings',
     'allauth.account.context_processors.account',
-    'allauth.socialaccount.context_processors.socialaccount',
     'pybb.context_processors.processor',
 )
 
@@ -121,11 +121,11 @@ USE_L10N = True
 USE_TZ = True
 
 # Django-Allauth settings
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_REQUIRED = True
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_EMAIL_VERIFICATION = None
-ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_FORM_CLASS = "djstripe.forms.StripeSubscriptionSignupForm"
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     ACCOUNT_PASSWORD_MIN_LENGTH = 1
@@ -140,7 +140,7 @@ ANONYMOUS_USER_ID = -1
 DJSTRIPE_PLANS = {
     "monthly": {
         "stripe_plan_id": "pro-monthly",
-        "name": "RealSharpLounge Pro Monthly ($40/month)",
+        "name": "Monthly Access ($40/month)",
         "description": "The monthly subscription plan to RealSharpLounge",
         "price": 4000,  # $25.00
         "currency": "usd",
@@ -149,7 +149,7 @@ DJSTRIPE_PLANS = {
     },
     "yearly": {
         "stripe_plan_id": "pro-yearly",
-        "name": "RealSharpLounge Pro Yearly ($365/year)",
+        "name": "Monthly Access ($365/year)",
         "description": "The annual subscription plan to RealSharpLounge",
         "price": 36500,  # $19900
         "currency": "usd",
