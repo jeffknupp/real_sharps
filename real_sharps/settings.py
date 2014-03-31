@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'floppyforms',
     'cappers',
-    'guardian',
     'django_extensions',
     'south',
     'autoslug',
@@ -76,7 +75,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
-    'guardian.backends.ObjectPermissionBackend',
 )
 
 TEMPLATE_DIRS = ('templates/', )
@@ -132,8 +130,6 @@ if DEBUG:
 
 # Django-Crispy-Forms settings
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
-ANONYMOUS_USER_ID = -1
 
 # DJ-Stripe settings
 
