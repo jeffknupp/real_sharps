@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('allauth.urls')),
     url(r'^forum/', include('pybb.urls', namespace='pybb')),
     url(r'^faq/', TemplateView.as_view(template_name='faq.html'), name='faq'),
+    url(r'^contact/', TemplateView.as_view(template_name='contact.html'), name='contact'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^payments/', include('djstripe.urls', namespace="djstripe")),
 )

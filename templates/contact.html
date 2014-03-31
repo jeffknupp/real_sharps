@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Contact Us</h1>
+
+<h4>For assistance, or to speak with us directly, please email <a href="mailto:sales@realsharps.com">sales@realsharps.com</a></h4>
+
+<div id="wufoo-m1kknyve0pn59qt">
+<a href="https://straphost.wufoo.com/forms/m1kknyve0pn59qt">Contact Us</a>.
+</div>
+<script type="text/javascript">var m1kknyve0pn59qt;(function(d, t) {
+var s = d.createElement(t), options = {
+'userName':'straphost',
+'formHash':'m1kknyve0pn59qt',
+'autoResize':true,
+'height':'645',
+'async':true,
+'host':'wufoo.com',
+'header':'show',
+'ssl':true};
+s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'wufoo.com/scripts/embed/form.js';
+s.onload = s.onreadystatechange = function() {
+var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+try { m1kknyve0pn59qt = new WufooForm();m1kknyve0pn59qt.initialize(options);m1kknyve0pn59qt.display(); } catch (e) {}};
+var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+})(document, 'script');</script>
+
+{% endblock content %}

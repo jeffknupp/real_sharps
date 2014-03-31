@@ -8,7 +8,6 @@ from djstripe.decorators import subscription_payment_required
 
 from cappers.models import Pick, Handicapper, Sport
 
-
 def index_view(request):
     """Homepage view."""
     return render_to_response(
@@ -45,8 +44,6 @@ def sport_list_view(request, pk=None, *args, **kwargs):
             'cappers/pick_list.html',
             context,
             context_instance=RequestContext(request))
-    
-
 
 def pick_list_view(request, pk=None, *args, **kwargs):
     context = {}
@@ -75,7 +72,6 @@ def capper_list_view(request, pk=None, *args, **kwargs):
             'cappers/pick_list.html',
             context,
             context_instance=RequestContext(request))
-    
 
 def charge():
     pass

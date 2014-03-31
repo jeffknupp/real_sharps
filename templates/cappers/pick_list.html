@@ -2,28 +2,31 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                {% if is_capper %}
-                <h1>{{ author.username|title }}'s Picks</h1>
-                {% else %}
-                <h1>{{ pick_category }}</h1>
-                {% endif %}
-                <hr />
-                <table class="table">
-                <thead>
-                    <th>Description</th><th>Capper</th><th>Sport</th><th>Date</th><th>Link</th>
-                </thead>
-                <tbody>
-                    {% for pick in picks %}
-                        <tr>
-                        <td><h4>{{ pick.name }}<small> {{ pick.teaser }}</small></h4></td>
-                        <td><a href="{% url 'capper_list' pk=pick.author.pk %}">{{ pick.author.username }}</a></td>
-                        <td><a href="{% url 'sport_list' pk=pick.sport.pk %}">{{ pick.sport.name }}</a></td>
-                        <td>{{ pick.created_at }}</td>
-                        <td><a href="{% url 'pick_detail' pk=pick.pk %}"><button class="btn">Go!</button></a></td>
-                        </tr>
-                    {% endfor %}
-                </table>
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {% if is_capper %}
+                        <h1>{{ author.username|title }}'s Picks</h1>
+                        {% else %}
+                        <h1>{{ pick_category }}</h1>
+                        {% endif %}
+                    </div>
+                    <table class="table">
+                    <thead>
+                        <th>Description</th><th>Capper</th><th>Sport</th><th>Date</th><th>Link</th>
+                    </thead>
+                    <tbody>
+                        {% for pick in picks %}
+                            <tr>
+                            <td><h4>{{ pick.name }}<small> {{ pick.teaser }}</small></h4></td>
+                            <td><a href="{% url 'capper_list' pk=pick.author.pk %}">{{ pick.author.username }}</a></td>
+                            <td><a href="{% url 'sport_list' pk=pick.sport.pk %}">{{ pick.sport.name }}</a></td>
+                            <td>{{ pick.created_at }}</td>
+                            <td><a href="{% url 'pick_detail' pk=pick.pk %}"><button class="btn">Go!</button></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
             {% if is_capper %}
             <div class="col-md-12">
