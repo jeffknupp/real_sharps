@@ -1,0 +1,3 @@
+{% load url from future %}
+{% load i18n %}
+<a href="{% url 'djstripe:subscribe' %}">{% trans "Register" %}</a> {% trans "or" %} <a href="{% url 'account_login' %}?next={{ next }}">{% trans "login" %}</a> {% trans "to create to post a reply" %}.
