@@ -1,6 +1,5 @@
 body {
-//    background-color: black;
-//   color: white;
+//    background-color: #B59855;
     font-family: "Helvetica Neue";
 }
 .red {
@@ -30,4 +29,8 @@ body {
 .black {
     background-color: black;
     color: white;
+}
+
+.forum-list {
+    width: 60%;
 }
